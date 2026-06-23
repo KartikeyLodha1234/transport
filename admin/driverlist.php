@@ -4,6 +4,7 @@ include("./includes/header.php");
 
 <div class="container-fluid py-4">
 
+    <!-- Page Header -->
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-4 gap-3">
         <div>
             <h2 class="fw-bold mb-1">
@@ -16,6 +17,7 @@ include("./includes/header.php");
         </button>
     </div>
 
+    <!-- Stats Cards -->
     <div class="row g-3 mb-4">
         <div class="col-12 col-sm-6 col-xl-4">
             <div class="card border-0 shadow-sm h-100">
@@ -61,6 +63,7 @@ include("./includes/header.php");
         </div>
     </div>
 
+    <!-- Driver Ledger Table -->
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 pt-3 pb-2">
             <div class="row align-items-center g-3">
@@ -215,74 +218,141 @@ include("./includes/header.php");
 
 </div>
 
+<!-- ========================================== -->
+<!-- ADD DRIVER MODAL - CLEAN & STRUCTURED -->
+<!-- ========================================== -->
 <div class="modal fade" id="addDriverModal" tabindex="-1" aria-labelledby="addDriverModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="addDriverModalLabel">
-                    <i class="bi bi-person-badge me-2"></i>Add New Driver
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0 pt-4 pb-0 px-4">
+                <div>
+                    <h5 class="modal-title fw-bold fs-4" id="addDriverModalLabel">
+                        <i class="bi bi-person-badge text-primary me-2"></i>Add New Driver
+                    </h5>
+                    <p class="text-muted small mb-0 mt-1">Enter credentials and account infrastructure mapping for the operational operator.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
+            
+            <div class="modal-body px-4 pb-0">
                 <form id="addDriverForm" novalidate>
-                    <div class="row g-3">
+                    <div class="row g-4">
+                        
+                        <!-- Full Name -->
                         <div class="col-md-6">
                             <label for="driverName" class="form-label fw-semibold">
-                                <i class="bi bi-person me-1 text-primary"></i>Driver Name
+                                <i class="bi bi-person text-primary me-1"></i>Full Name
                             </label>
-                            <input type="text" class="form-control" id="driverName" placeholder="Enter driver full name" required>
-                            <div class="invalid-feedback">Please enter driver name.</div>
+                            <input type="text" class="form-control" id="driverName" 
+                                   placeholder="e.g. Kartikey Lodha" required>
+                            <div class="invalid-feedback">Please enter driver full name.</div>
                         </div>
+                        
+                        <!-- Phone Number -->
                         <div class="col-md-6">
-                            <label for="phoneNumber" class="form-label fw-semibold">
-                                <i class="bi bi-telephone me-1 text-primary"></i>Phone Number
+                            <label for="driverPhone" class="form-label fw-semibold">
+                                <i class="bi bi-telephone text-primary me-1"></i>Phone No.
                             </label>
-                            <input type="tel" class="form-control" id="phoneNumber" placeholder="e.g., +91 98765 43210" required>
+                            <input type="tel" class="form-control" id="driverPhone" 
+                                   placeholder="e.g. 9664153249" required>
                             <div class="invalid-feedback">Please enter phone number.</div>
                         </div>
+                        
+                        <!-- Email -->
                         <div class="col-md-4">
-                            <label for="dob" class="form-label fw-semibold">
-                                <i class="bi bi-calendar-event me-1 text-primary"></i>Date of Birth
+                            <label for="driverEmail" class="form-label fw-semibold">
+                                <i class="bi bi-envelope text-primary me-1"></i>Email Address
                             </label>
-                            <input type="date" class="form-control" id="dob" required>
-                            <div class="invalid-feedback">Please select date of birth.</div>
+                            <input type="email" class="form-control" id="driverEmail" 
+                                   placeholder="e.g., driver@gmail.com" required>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
                         </div>
+                        
+                        <!-- Licence Number -->
                         <div class="col-md-4">
-                            <label for="licenseNumber" class="form-label fw-semibold">
-                                <i class="bi bi-card-text me-1 text-primary"></i>License Number
+                            <label for="licenceNumber" class="form-label fw-semibold">
+                                <i class="bi bi-card-text text-primary me-1"></i>Licence Number
                             </label>
-                            <input type="text" class="form-control text-uppercase" id="licenseNumber" placeholder="RJ06-YYYY0000000" required>
-                            <div class="invalid-feedback">Please enter valid license number.</div>
+                            <input type="text" class="form-control text-uppercase" id="licenceNumber" 
+                                   placeholder="e.g., RJ06-2022001" required>
+                            <div class="invalid-feedback">Please enter licence number.</div>
                         </div>
+                        
+                        <!-- Years of Experience -->
                         <div class="col-md-4">
-                            <label for="driverStatus" class="form-label fw-semibold">
-                                <i class="bi bi-circle me-1 text-primary"></i>Status
+                            <label for="experienceYears" class="form-label fw-semibold">
+                                <i class="bi bi-star text-primary me-1"></i>Years of Experience
                             </label>
-                            <select class="form-select" id="driverStatus" required>
-                                <option value="">Select Status</option>
-                                <option value="On Duty">On Duty</option>
-                                <option value="Off Duty">Off Duty</option>
-                                <option value="Standby">Standby</option>
-                                <option value="Suspended">Suspended</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a status.</div>
+                            <input type="number" class="form-control" id="experienceYears" 
+                                   placeholder="e.g., 5" min="0" max="50" required>
+                            <div class="invalid-feedback">Please enter valid experience years.</div>
                         </div>
+                        
+                        <!-- Bank Name -->
+                        <div class="col-md-6">
+                            <label for="bankName" class="form-label fw-semibold">
+                                <i class="bi bi-bank text-primary me-1"></i>Bank Name
+                            </label>
+                            <input type="text" class="form-control" id="bankName" 
+                                   placeholder="e.g., AU Small Finance Bank" required>
+                            <div class="invalid-feedback">Please enter Bank name.</div>
+                        </div>
+                        
+                        <!-- Account Number -->
+                        <div class="col-md-6">
+                            <label for="accountNumber" class="form-label fw-semibold">
+                                <i class="bi bi-credit-card-2-front text-primary me-1"></i>Account Number
+                            </label>
+                            <input type="text" class="form-control" id="accountNumber" 
+                                   placeholder="Enter account number" required>
+                            <div class="invalid-feedback">Please enter account number.</div>
+                        </div>
+
+                        <!-- IFSC Code -->
+                        <div class="col-md-6">
+                            <label for="ifscCode" class="form-label fw-semibold">
+                                <i class="bi bi-qr-code text-primary me-1"></i>IFSC Code
+                            </label>
+                            <input type="text" class="form-control text-uppercase" id="ifscCode" 
+                                   placeholder="e.g., AUBL0002101" required>
+                            <div class="invalid-feedback">Please enter valid IFSC code.</div>
+                        </div>
+
+                        <!-- Password (FIXED & ADDED) -->
+                        <div class="col-md-6">
+                            <label for="driverPassword" class="form-label fw-semibold">
+                                <i class="bi bi-shield-lock text-primary me-1"></i>Portal Password
+                            </label>
+                            <input type="password" class="form-control" id="driverPassword" 
+                                   placeholder="Assign security password" required>
+                            <div class="invalid-feedback">Please assign a strong password.</div>
+                        </div>
+      <div class="col-md-6">
+                            <label for="driverPassword" class="form-label fw-semibold">
+                                <i class="bi bi-shield-lock text-primary me-1"></i>Portal Password
+                            </label>
+                            <input type="password" class="form-control" id="driverPassword" 
+                                   placeholder="Assign security password" required>
+                            <div class="invalid-feedback">Please assign a strong password.</div>
+                        </div>
+                        <!-- Notes -->
                         <div class="col-12">
-                            <label for="address" class="form-label fw-semibold">
-                                <i class="bi bi-geo-alt me-1 text-primary"></i>Home Address
+                            <label for="driverNotes" class="form-label fw-semibold">
+                                <i class="bi bi-sticky text-primary me-1"></i>Internal Administration Remarks
                             </label>
-                            <textarea class="form-control" id="address" rows="2" placeholder="Enter complete address details..." required></textarea>
-                            <div class="invalid-feedback">Please enter address.</div>
+                            <textarea class="form-control" id="driverNotes" rows="2" 
+                                      placeholder="Optional notes regarding screening or medical clearances..."></textarea>
                         </div>
+                        
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            
+            <div class="modal-footer border-0 px-4 pb-4 pt-3">
+                <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
                     <i class="bi bi-x-lg me-1"></i>Cancel
                 </button>
-                <button type="button" class="btn btn-primary" onclick="saveDriver()">
+                <button type="button" class="btn btn-primary px-4" onclick="saveDriver()">
                     <i class="bi bi-check-lg me-2"></i>Add Driver
                 </button>
             </div>
