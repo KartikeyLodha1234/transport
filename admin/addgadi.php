@@ -11,7 +11,8 @@ include("./includes/header.php");
             </h2>
             <p class="text-muted mb-0">Monitor tactical fleet asset distributions and status configurations.</p>
         </div>
-        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal"
+            data-bs-target="#addVehicleModal">
             <i class="bi bi-plus-lg me-2"></i>Add Vehicle
         </button>
     </div>
@@ -98,10 +99,12 @@ include("./includes/header.php");
                         </div>
 
                         <div class="d-flex gap-2 w-100 w-sm-auto justify-content-start justify-content-sm-end">
-                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1" onclick="filterTable()">
+                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1"
+                                onclick="filterTable()">
                                 <i class="bi bi-funnel"></i>Filter
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1" onclick="exportTable()">
+                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1"
+                                onclick="exportTable()">
                                 <i class="bi bi-download"></i>Export
                             </button>
                         </div>
@@ -286,7 +289,8 @@ include("./includes/header.php");
 
             <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top flex-wrap gap-2">
                 <div class="small text-muted">
-                    Showing <span class="fw-semibold" id="showingStart">1-5</span> of <span class="fw-semibold" id="totalCount">42</span> vehicles
+                    Showing <span class="fw-semibold" id="showingStart">1-5</span> of <span class="fw-semibold"
+                        id="totalCount">42</span> vehicles
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-sm mb-0">
@@ -319,26 +323,26 @@ include("./includes/header.php");
                     <h5 class="modal-title fw-bold fs-4" id="addVehicleModalLabel">
                         <i class="bi bi-truck text-primary me-2"></i>Add New Vehicle
                     </h5>
-                    <p class="text-muted small mb-0 mt-1">Enter the details for the new vehicle to add it to your fleet.</p>
+                    <p class="text-muted small mb-0 mt-1">Enter the details for the new vehicle to add it to your fleet.
+                    </p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
+
             <div class="modal-body px-4 pb-0">
                 <form id="addVehicleForm" novalidate>
                     <div class="row g-4">
-                        
+
                         <!-- Vehicle ID -->
                         <div class="col-md-6">
                             <label for="vehicleId" class="form-label fw-semibold">
                                 <i class="bi bi-hash text-primary me-1"></i>Vehicle ID
                             </label>
-                            <input type="text" class="form-control" id="vehicleId" 
-                                   placeholder="e.g., TRK-004" required>
+                            <input type="text" class="form-control" id="vehicleId" placeholder="e.g., TRK-004" required>
                             <div class="invalid-feedback">Please enter Vehicle ID.</div>
                             <div class="form-text">Unique identifier for this vehicle.</div>
                         </div>
-                        
+
                         <!-- Type -->
                         <div class="col-md-6">
                             <label for="vehicleType" class="form-label fw-semibold">
@@ -347,83 +351,96 @@ include("./includes/header.php");
                             <select class="form-select" id="vehicleType" required>
                                 <option value="">Select type</option>
                                 <option value="Truck">🚛 Truck</option>
-                                <option value="Van">🚐 Van</option>
-                                <option value="Car">🚗 Car</option>
+                                <option value="Van">🚐 Tempo</option>
+                                <option value="Car">🚗 Commerical Tempo</option>
                                 <option value="Forklift">🏗️ Forklift</option>
                                 <option value="Trailer">🚛 Trailer</option>
-                                <option value="Bus">🚌 Bus</option>
-                                <option value="Motorcycle">🏍️ Motorcycle</option>
-                                <option value="Other">Other</option>
                             </select>
                             <div class="invalid-feedback">Please select a vehicle type.</div>
                         </div>
-                        
+
                         <!-- Make -->
                         <div class="col-md-4">
                             <label for="vehicleMake" class="form-label fw-semibold">
                                 <i class="bi bi-building text-primary me-1"></i>Make
                             </label>
-                            <input type="text" class="form-control" id="vehicleMake" 
-                                   placeholder="e.g., Freightliner" required>
+                            <input type="text" class="form-control" id="vehicleMake" placeholder="e.g., Freightliner"
+                                required>
                             <div class="invalid-feedback">Please enter vehicle make.</div>
                         </div>
-                        
+
                         <!-- Model -->
                         <div class="col-md-4">
                             <label for="vehicleModel" class="form-label fw-semibold">
                                 <i class="bi bi-tag text-primary me-1"></i>Model
                             </label>
-                            <input type="text" class="form-control" id="vehicleModel" 
-                                   placeholder="e.g., Cascadia" required>
+                            <input type="text" class="form-control" id="vehicleModel" placeholder="e.g., Cascadia"
+                                required>
                             <div class="invalid-feedback">Please enter vehicle model.</div>
                         </div>
-                        
+
                         <!-- Year -->
                         <div class="col-md-4">
                             <label for="modelYear" class="form-label fw-semibold">
                                 <i class="bi bi-calendar text-primary me-1"></i>Year
                             </label>
-                            <input type="number" class="form-control" id="modelYear" 
-                                   placeholder="e.g., 2023" min="2000" max="2026" required>
+                            <input type="number" class="form-control" id="modelYear" placeholder="e.g., 2023" min="2000"
+                                max="2026" required>
                             <div class="invalid-feedback">Please enter a valid year (2000-2026).</div>
                         </div>
-                        
+
                         <!-- License Plate -->
                         <div class="col-md-6">
                             <label for="numberPlate" class="form-label fw-semibold">
                                 <i class="bi bi-credit-card text-primary me-1"></i>License Plate
                             </label>
-                            <input type="text" class="form-control text-uppercase" id="numberPlate" 
-                                   placeholder="e.g., TRK-004-NY" required>
+                            <input type="text" class="form-control text-uppercase" id="numberPlate"
+                                placeholder="e.g., TRK-004-NY" required>
                             <div class="invalid-feedback">Please enter license plate.</div>
                             <div class="form-text">Vehicle registration number.</div>
                         </div>
-                        
-                        <!-- VIN -->
+
                         <div class="col-md-6">
-                            <label for="vinNumber" class="form-label fw-semibold">
-                                <i class="bi bi-qr-code text-primary me-1"></i>VIN
+                            <label for="pucNumber" class="form-label fw-semibold">
+                                <i class="bi bi-file-earmark-check text-primary me-1"></i>PUC Certificate Number
                             </label>
-                            <input type="text" class="form-control text-uppercase" id="vinNumber" 
-                                   placeholder="Vehicle Identification Number" required>
-                            <div class="invalid-feedback">Please enter VIN.</div>
-                            <div class="form-text">17-character Vehicle Identification Number.</div>
+                            <input type="text" class="form-control text-uppercase" id="pucNumber"
+                                placeholder="e.g., RJ06-PUC-12345" required>
+                            <div class="invalid-feedback">Please enter PUC Certificate Number.</div>
                         </div>
-                        
+
+                        <div class="col-md-6">
+                            <label for="pucExpiry" class="form-label fw-semibold">
+                                <i class="bi bi-calendar-date text-primary me-1"></i>PUC Expiry Date
+                            </label>
+                            <input type="date" class="form-control" id="pucExpiry" required>
+                            <div class="invalid-feedback">Please select PUC expiration date.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="uploadPuc" class="form-label fw-semibold text-dark">
+                                <i class="bi bi-cloud-arrow-up text-primary me-1"></i>Upload PUC Document Copy
+                            </label>
+                            <input type="file" class="form-control" id="uploadPuc" accept=".jpg,.jpeg,.png,.pdf"
+                                required>
+                            <div class="small text-muted mt-1">Accepted formats: JPG, PNG, PDF (Max 5MB)</div>
+                            <div class="invalid-feedback">Please upload valid PUC verification document.</div>
+                        </div>
+
                         <!-- Notes -->
                         <div class="col-12">
                             <label for="vehicleNotes" class="form-label fw-semibold">
                                 <i class="bi bi-sticky text-primary me-1"></i>Notes
                             </label>
-                            <textarea class="form-control" id="vehicleNotes" rows="2" 
-                                      placeholder="Additional notes about the vehicle..."></textarea>
+                            <textarea class="form-control" id="vehicleNotes" rows="2"
+                                placeholder="Additional notes about the vehicle..."></textarea>
                             <div class="form-text">Optional: Add any special notes or remarks.</div>
                         </div>
-                        
+
                     </div>
                 </form>
             </div>
-            
+
             <div class="modal-footer border-0 px-4 pb-4 pt-3">
                 <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
                     <i class="bi bi-x-lg me-1"></i>Cancel
