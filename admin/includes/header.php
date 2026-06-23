@@ -64,6 +64,11 @@
                     <i class="bi bi-grid me-2"></i> Vechile List
                 </a>
             </li>
+               <li>
+                <a href="driverlist.php" class="nav-link text-white">
+                    <i class="bi bi-grid me-2"></i> Driver List
+                </a>
+            </li>
         </ul>
         <hr>
         <div class="small text-white-50">

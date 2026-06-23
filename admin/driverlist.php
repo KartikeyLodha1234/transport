@@ -309,132 +309,84 @@ include("./includes/header.php");
 </div>
 
 <!-- ========================================== -->
-<!-- ADD VEHICLE MODAL - ENHANCED -->
+<!-- ADD VEHICLE MODAL - FIXED -->
 <!-- ========================================== -->
 <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0 pt-4 pb-0 px-4">
-                <div>
-                    <h5 class="modal-title fw-bold fs-4" id="addVehicleModalLabel">
-                        <i class="bi bi-truck text-primary me-2"></i>Add New Vehicle
-                    </h5>
-                    <p class="text-muted small mb-0 mt-1">Enter the details for the new vehicle to add it to your fleet.</p>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="addVehicleModalLabel">
+                    <i class="bi bi-truck me-2"></i>Add New Vehicle
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
-            <div class="modal-body px-4 pb-0">
+            <div class="modal-body p-4">
                 <form id="addVehicleForm" novalidate>
-                    <div class="row g-4">
-                        
-                        <!-- Vehicle ID -->
+                    <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="vehicleId" class="form-label fw-semibold">
-                                <i class="bi bi-hash text-primary me-1"></i>Vehicle ID
+                            <label for="ownerName" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i>Company Owner
                             </label>
-                            <input type="text" class="form-control" id="vehicleId" 
-                                   placeholder="e.g., TRK-004" required>
-                            <div class="invalid-feedback">Please enter Vehicle ID.</div>
-                            <div class="form-text">Unique identifier for this vehicle.</div>
+                            <input type="text" class="form-control" id="ownerName" placeholder="Enter owner name" required>
+                            <div class="invalid-feedback">Please enter owner name.</div>
                         </div>
-                        
-                        <!-- Type -->
                         <div class="col-md-6">
-                            <label for="vehicleType" class="form-label fw-semibold">
-                                <i class="bi bi-truck-front text-primary me-1"></i>Type
+                            <label for="truckModel" class="form-label fw-semibold">
+                                <i class="bi bi-truck me-1 text-primary"></i>Truck Model
                             </label>
-                            <select class="form-select" id="vehicleType" required>
-                                <option value="">Select type</option>
-                                <option value="Truck">🚛 Truck</option>
-                                <option value="Van">🚐 Van</option>
-                                <option value="Car">🚗 Car</option>
-                                <option value="Forklift">🏗️ Forklift</option>
-                                <option value="Trailer">🚛 Trailer</option>
-                                <option value="Bus">🚌 Bus</option>
-                                <option value="Motorcycle">🏍️ Motorcycle</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a vehicle type.</div>
+                            <input type="text" class="form-control" id="truckModel" placeholder="e.g., Tata Ace" required>
+                            <div class="invalid-feedback">Please enter truck model.</div>
                         </div>
-                        
-                        <!-- Make -->
-                        <div class="col-md-4">
-                            <label for="vehicleMake" class="form-label fw-semibold">
-                                <i class="bi bi-building text-primary me-1"></i>Make
-                            </label>
-                            <input type="text" class="form-control" id="vehicleMake" 
-                                   placeholder="e.g., Freightliner" required>
-                            <div class="invalid-feedback">Please enter vehicle make.</div>
-                        </div>
-                        
-                        <!-- Model -->
-                        <div class="col-md-4">
-                            <label for="vehicleModel" class="form-label fw-semibold">
-                                <i class="bi bi-tag text-primary me-1"></i>Model
-                            </label>
-                            <input type="text" class="form-control" id="vehicleModel" 
-                                   placeholder="e.g., Cascadia" required>
-                            <div class="invalid-feedback">Please enter vehicle model.</div>
-                        </div>
-                        
-                        <!-- Year -->
                         <div class="col-md-4">
                             <label for="modelYear" class="form-label fw-semibold">
-                                <i class="bi bi-calendar text-primary me-1"></i>Year
+                                <i class="bi bi-calendar me-1 text-primary"></i>Model Year
                             </label>
-                            <input type="number" class="form-control" id="modelYear" 
-                                   placeholder="e.g., 2023" min="2000" max="2026" required>
-                            <div class="invalid-feedback">Please enter a valid year (2000-2026).</div>
+                            <input type="number" class="form-control" id="modelYear" placeholder="YYYY" min="2000" max="2026" required>
+                            <div class="invalid-feedback">Please enter valid year (2000-2026).</div>
                         </div>
-                        
-                        <!-- License Plate -->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="numberPlate" class="form-label fw-semibold">
-                                <i class="bi bi-credit-card text-primary me-1"></i>License Plate
+                                <i class="bi bi-hash me-1 text-primary"></i>Number Plate
                             </label>
-                            <input type="text" class="form-control text-uppercase" id="numberPlate" 
-                                   placeholder="e.g., TRK-004-NY" required>
-                            <div class="invalid-feedback">Please enter license plate.</div>
-                            <div class="form-text">Vehicle registration number.</div>
+                            <input type="text" class="form-control text-uppercase" id="numberPlate" placeholder="RJ06PA6666" required>
+                            <div class="invalid-feedback">Please enter number plate.</div>
                         </div>
-                        
-                        <!-- VIN -->
-                        <div class="col-md-6">
-                            <label for="vinNumber" class="form-label fw-semibold">
-                                <i class="bi bi-qr-code text-primary me-1"></i>VIN
+                        <div class="col-md-4">
+                            <label for="vehicleStatus" class="form-label fw-semibold">
+                                <i class="bi bi-circle me-1 text-primary"></i>Status
                             </label>
-                            <input type="text" class="form-control text-uppercase" id="vinNumber" 
-                                   placeholder="Vehicle Identification Number" required>
-                            <div class="invalid-feedback">Please enter VIN.</div>
-                            <div class="form-text">17-character Vehicle Identification Number.</div>
+                            <select class="form-select" id="vehicleStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="In Transit">In Transit</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Loading">Loading</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a status.</div>
                         </div>
-                        
-                        <!-- Notes -->
                         <div class="col-12">
                             <label for="vehicleNotes" class="form-label fw-semibold">
-                                <i class="bi bi-sticky text-primary me-1"></i>Notes
+                                <i class="bi bi-sticky me-1 text-primary"></i>Additional Notes
                             </label>
-                            <textarea class="form-control" id="vehicleNotes" rows="2" 
-                                      placeholder="Additional notes about the vehicle..."></textarea>
-                            <div class="form-text">Optional: Add any special notes or remarks.</div>
+                            <textarea class="form-control" id="vehicleNotes" rows="2" placeholder="Any special notes about this vehicle..."></textarea>
                         </div>
-                        
                     </div>
                 </form>
             </div>
-            
-            <div class="modal-footer border-0 px-4 pb-4 pt-3">
-                <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="bi bi-x-lg me-1"></i>Cancel
                 </button>
-                <button type="button" class="btn btn-primary px-4" onclick="saveVehicle()">
+                <button type="button" class="btn btn-primary" onclick="saveVehicle()">
                     <i class="bi bi-check-lg me-2"></i>Add Vehicle
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <!-- Include Bootstrap JS if not already included -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
