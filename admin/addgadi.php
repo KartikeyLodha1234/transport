@@ -11,11 +11,12 @@ include("./includes/header.php");
             </h2>
             <p class="text-muted mb-0">Monitor tactical fleet asset distributions and status configurations.</p>
         </div>
-        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addvehicle">
-    <i class="bi bi-plus-lg me-2"></i>Add Vehicle
-</button>
+        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+            <i class="bi bi-plus-lg me-2"></i>Add Vehicle
+        </button>
     </div>
 
+    <!-- Stats Cards -->
     <div class="row g-3 mb-4">
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
@@ -75,6 +76,7 @@ include("./includes/header.php");
         </div>
     </div>
 
+    <!-- Vehicle Table -->
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 pt-3 pb-2">
             <div class="row align-items-center g-3">
@@ -96,10 +98,10 @@ include("./includes/header.php");
                         </div>
 
                         <div class="d-flex gap-2 w-100 w-sm-auto justify-content-start justify-content-sm-end">
-                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1" onclick="filterTable()">
                                 <i class="bi bi-funnel"></i>Filter
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+                            <button class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1" onclick="exportTable()">
                                 <i class="bi bi-download"></i>Export
                             </button>
                         </div>
@@ -121,7 +123,7 @@ include("./includes/header.php");
                             <th style="text-align: center; width: 180px;">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="vehicleTableBody">
                         <tr>
                             <td><span class="fw-semibold text-muted">#001</span></td>
                             <td>
@@ -284,7 +286,7 @@ include("./includes/header.php");
 
             <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top flex-wrap gap-2">
                 <div class="small text-muted">
-                    Showing <span class="fw-semibold">1-5</span> of <span class="fw-semibold">42</span> vehicles
+                    Showing <span class="fw-semibold" id="showingStart">1-5</span> of <span class="fw-semibold" id="totalCount">42</span> vehicles
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-sm mb-0">
@@ -306,53 +308,76 @@ include("./includes/header.php");
 
 </div>
 
+<!-- ========================================== -->
+<!-- ADD VEHICLE MODAL - FIXED -->
+<!-- ========================================== -->
 <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title fw-bold" id="addVehicleModalLabel">
-                    <i class="bi bi-truck me-2 text-primary"></i>Add New Vehicle
+                    <i class="bi bi-truck me-2"></i>Add New Vehicle
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="addVehicleForm">
+            <div class="modal-body p-4">
+                <form id="addVehicleForm" novalidate>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="ownerName" class="form-label fw-semibold">Company Owner</label>
+                            <label for="ownerName" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i>Company Owner
+                            </label>
                             <input type="text" class="form-control" id="ownerName" placeholder="Enter owner name" required>
+                            <div class="invalid-feedback">Please enter owner name.</div>
                         </div>
                         <div class="col-md-6">
-                            <label for="truckModel" class="form-label fw-semibold">Truck Model</label>
+                            <label for="truckModel" class="form-label fw-semibold">
+                                <i class="bi bi-truck me-1 text-primary"></i>Truck Model
+                            </label>
                             <input type="text" class="form-control" id="truckModel" placeholder="e.g., Tata Ace" required>
+                            <div class="invalid-feedback">Please enter truck model.</div>
                         </div>
                         <div class="col-md-4">
-                            <label for="modelYear" class="form-label fw-semibold">Model Year</label>
-                            <input type="number" class="form-control" id="modelYear" placeholder="YYYY" min="2000" max="2026">
+                            <label for="modelYear" class="form-label fw-semibold">
+                                <i class="bi bi-calendar me-1 text-primary"></i>Model Year
+                            </label>
+                            <input type="number" class="form-control" id="modelYear" placeholder="YYYY" min="2000" max="2026" required>
+                            <div class="invalid-feedback">Please enter valid year (2000-2026).</div>
                         </div>
                         <div class="col-md-4">
-                            <label for="numberPlate" class="form-label fw-semibold">Number Plate</label>
+                            <label for="numberPlate" class="form-label fw-semibold">
+                                <i class="bi bi-hash me-1 text-primary"></i>Number Plate
+                            </label>
                             <input type="text" class="form-control text-uppercase" id="numberPlate" placeholder="RJ06PA6666" required>
+                            <div class="invalid-feedback">Please enter number plate.</div>
                         </div>
                         <div class="col-md-4">
-                            <label for="vehicleStatus" class="form-label fw-semibold">Status</label>
-                            <select class="form-select" id="vehicleStatus">
+                            <label for="vehicleStatus" class="form-label fw-semibold">
+                                <i class="bi bi-circle me-1 text-primary"></i>Status
+                            </label>
+                            <select class="form-select" id="vehicleStatus" required>
+                                <option value="">Select Status</option>
                                 <option value="In Transit">In Transit</option>
                                 <option value="Maintenance">Maintenance</option>
                                 <option value="Loading">Loading</option>
                                 <option value="Delivered">Delivered</option>
                                 <option value="Critical">Critical</option>
                             </select>
+                            <div class="invalid-feedback">Please select a status.</div>
                         </div>
                         <div class="col-12">
-                            <label for="vehicleNotes" class="form-label fw-semibold">Additional Notes</label>
+                            <label for="vehicleNotes" class="form-label fw-semibold">
+                                <i class="bi bi-sticky me-1 text-primary"></i>Additional Notes
+                            </label>
                             <textarea class="form-control" id="vehicleNotes" rows="2" placeholder="Any special notes about this vehicle..."></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </button>
                 <button type="button" class="btn btn-primary" onclick="saveVehicle()">
                     <i class="bi bi-check-lg me-2"></i>Add Vehicle
                 </button>
@@ -360,51 +385,282 @@ include("./includes/header.php");
         </div>
     </div>
 </div>
-<!-- 
-<div class="modal fade" id="newShipmentModal" tabindex="-1" aria-labelledby="newShipmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="newShipmentModalLabel">Create New Shipment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="newShipmentForm">
-                    <div class="mb-3">
-                        <label for="destination" class="form-label fw-semibold">Destination</label>
-                        <input type="text" class="form-control" id="destination" placeholder="Enter destination">
-                    </div>
-                    <div class="mb-3">
-                        <label for="driver" class="form-label fw-semibold">Assign Driver</label>
-                        <select class="form-select" id="driver">
-                            <option selected>Select driver...</option>
-                            <option value="1">Rajesh Kumar</option>
-                            <option value="2">Amit Singh</option>
-                            <option value="3">Vijay Yadav</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="vehicle" class="form-label fw-semibold">Vehicle</label>
-                        <select class="form-select" id="vehicle">
-                            <option selected>Select vehicle...</option>
-                            <option value="1">VH-201 - Tata Ace</option>
-                            <option value="2">VH-202 - Ashok Leyland</option>
-                            <option value="3">VH-203 - Mahindra Bolero</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="eta" class="form-label fw-semibold">Expected Delivery</label>
-                        <input type="datetime-local" class="form-control" id="eta">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Create Shipment</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 
-<script src="js/script.js"></script>
-<?php include("./includes/footer.php"); ?>  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ========== SEARCH FUNCTIONALITY ==========
+    const searchInput = document.getElementById('vehicleSearch');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#vehicleTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update count
+            const totalSpan = document.getElementById('totalCount');
+            if (totalSpan) {
+                totalSpan.textContent = visibleCount;
+            }
+        });
+    }
+    
+    // ========== STATUS BADGE COLORS ==========
+    const statusColors = {
+        'In Transit': 'success',
+        'Maintenance': 'warning',
+        'Loading': 'info',
+        'Delivered': 'success',
+        'Critical': 'danger'
+    };
+    
+    document.querySelectorAll('#vehicleTableBody tr').forEach(row => {
+        const statusCell = row.querySelector('td:nth-child(6)');
+        if (statusCell) {
+            const badge = statusCell.querySelector('.badge');
+            if (badge) {
+                const statusText = badge.textContent.trim();
+                const color = statusColors[statusText] || 'secondary';
+                badge.className = `badge bg-${color} bg-opacity-10 text-${color} rounded-pill px-3 py-2 d-inline-flex align-items-center`;
+            }
+        }
+    });
+});
+
+// ========== ACTION FUNCTIONS ==========
+function viewVehicle(vehicleId) {
+    alert(`📋 Viewing details for vehicle: ${vehicleId}`);
+}
+
+function editVehicle(vehicleId) {
+    alert(`✏️ Editing vehicle: ${vehicleId}`);
+}
+
+function deleteVehicle(vehicleId) {
+    if (confirm(`Are you sure you want to delete vehicle: ${vehicleId}?`)) {
+        // Find and remove the row
+        const rows = document.querySelectorAll('#vehicleTableBody tr');
+        rows.forEach(row => {
+            if (row.textContent.includes(vehicleId)) {
+                row.remove();
+                updateSerialNumbers();
+                updateCount();
+                alert(`🗑️ Vehicle ${vehicleId} deleted successfully!`);
+            }
+        });
+    }
+}
+
+function updateSerialNumbers() {
+    const rows = document.querySelectorAll('#vehicleTableBody tr');
+    rows.forEach((row, index) => {
+        const srNo = row.querySelector('td:first-child span');
+        if (srNo) {
+            const num = String(index + 1).padStart(3, '0');
+            srNo.textContent = `#${num}`;
+        }
+    });
+}
+
+function updateCount() {
+    const rows = document.querySelectorAll('#vehicleTableBody tr');
+    const totalSpan = document.getElementById('totalCount');
+    if (totalSpan) {
+        totalSpan.textContent = rows.length;
+    }
+}
+
+// ========== SAVE VEHICLE - MODAL FORM ==========
+function saveVehicle() {
+    const form = document.getElementById('addVehicleForm');
+    
+    // Check form validity
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+        return;
+    }
+    
+    // Get form data
+    const owner = document.getElementById('ownerName').value.trim();
+    const model = document.getElementById('truckModel').value.trim();
+    const year = document.getElementById('modelYear').value.trim();
+    const plate = document.getElementById('numberPlate').value.trim().toUpperCase();
+    const status = document.getElementById('vehicleStatus').value;
+    const notes = document.getElementById('vehicleNotes').value.trim();
+    
+    // Get avatar color based on status
+    const statusColors = {
+        'In Transit': '0D6EFD',
+        'Maintenance': 'FFC107',
+        'Loading': '0DCAF0',
+        'Delivered': '198754',
+        'Critical': 'DC3545'
+    };
+    const avatarColor = statusColors[status] || '6C757D';
+    
+    // Create new row
+    const tableBody = document.getElementById('vehicleTableBody');
+    const newRow = document.createElement('tr');
+    const srNo = tableBody.children.length + 1;
+    const srNoFormatted = String(srNo).padStart(3, '0');
+    
+    // Status badge color mapping
+    const badgeColors = {
+        'In Transit': 'success',
+        'Maintenance': 'warning',
+        'Loading': 'info',
+        'Delivered': 'success',
+        'Critical': 'danger'
+    };
+    const badgeColor = badgeColors[status] || 'secondary';
+    
+    newRow.innerHTML = `
+        <td><span class="fw-semibold text-muted">#${srNoFormatted}</span></td>
+        <td>
+            <div class="d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(owner)}&background=${avatarColor}&color=fff&size=32"
+                    class="rounded-circle me-2" width="32" height="32" alt="">
+                <span class="fw-semibold">${owner}</span>
+            </div>
+        </td>
+        <td>${model}</td>
+        <td><span class="text-muted">${year}</span></td>
+        <td><code class="bg-light px-2 py-1 rounded text-uppercase">${plate}</code></td>
+        <td>
+            <span class="badge bg-${badgeColor} bg-opacity-10 text-${badgeColor} rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.4rem;"></i>
+                ${status}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex gap-2 justify-content-center align-items-center">
+                <button class="btn btn-outline-primary" title="View Details" onclick="viewVehicle('${plate}')">
+                    <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn btn-outline-warning" title="Edit" onclick="editVehicle('${plate}')">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger" title="Delete" onclick="deleteVehicle('${plate}')">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            </div>
+        </td>
+    `;
+    
+    // Add animation class
+    newRow.style.animation = 'fadeInUp 0.5s ease';
+    tableBody.prepend(newRow);
+    
+    // Update count
+    updateCount();
+    
+    // Show success message
+    const successAlert = document.createElement('div');
+    successAlert.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-4';
+    successAlert.style.zIndex = '9999';
+    successAlert.style.minWidth = '300px';
+    successAlert.innerHTML = `
+        <i class="bi bi-check-circle me-2"></i>
+        <strong>Success!</strong> Vehicle ${plate} added successfully.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(successAlert);
+    
+    // Auto dismiss after 3 seconds
+    setTimeout(() => {
+        successAlert.remove();
+    }, 3000);
+    
+    // Reset form and close modal
+    form.reset();
+    form.classList.remove('was-validated');
+    
+    const modal = bootstrap.Modal.getInstance(document.getElementById('addVehicleModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    console.log(`✅ Vehicle ${plate} added successfully!`);
+}
+
+// ========== FILTER FUNCTION ==========
+function filterTable() {
+    alert('🔍 Filter dialog would open here');
+}
+
+// ========== EXPORT FUNCTION ==========
+function exportTable() {
+    alert('📥 Exporting table data...');
+}
+
+// ========== KEYBOARD SHORTCUTS ==========
+document.addEventListener('keydown', function(e) {
+    // Ctrl+Shift+A to open Add Vehicle modal
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById('addVehicleModal'));
+        modal.show();
+    }
+});
+</script>
+
+<style>
+/* Fade In Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Success Alert Styling */
+.alert-success {
+    background: #d1e7dd;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 1rem 1.5rem;
+}
+
+/* Modal Header Gradient */
+.modal-header.bg-primary {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* Form Focus */
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+}
+</style>
+
+<!-- Include Bootstrap JS if not already included -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php include("./includes/footer.php"); ?>
